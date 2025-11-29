@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Mudhoji</title>
+  <style>
+    body{font-family:system-ui;margin:24px;background:#f5f7fb}
+    .card{background:#fff;padding:18px;border-radius:10px;max-width:720px;margin:auto;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    input,button,textarea{padding:10px;margin:6px 0;width:100%;box-sizing:border-box}
+    .small{font-size:13px;color:#555}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Admin Login</h2>
+    <input id="email" placeholder="admin email" />
+    <input id="pwd" placeholder="password" type="password" />
+    <button id="loginBtn">Sign in</button>
+    <div id="status" class="small"></div>
+
+    <div id="adminArea" style="display:none;margin-top:12px">
+      <h3>Add / Update Student</h3>
+      <input id="sreg" placeholder="Reg No (use numeric or string)" />
+      <input id="sname" placeholder="Name" />
+      <input id="sclass" placeholder="Class e.g., 10A" />
+      <input id="smom" placeholder="Mother's name" />
+      <textarea id="smarks" placeholder='Marks JSON: {"English":78,"Math":90}' rows=4></textarea>
+      <button id="save">Save Student</button>
+      <div id="saveMsg" class="small"></div>
+    </div>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+<script>
+  // === your firebaseConfig (same as index.html) ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQ0iC_mrXXcYWeFFuuF-dMht4yFuP1woY",
+    authDomain: "mudhoji-high-school.firebaseapp.com",
+    projectId: "mudhoji-high-school",
+    storageBucket: "mudhoji-high-school.firebasestorage.app",
+    messagingSenderId: "443651811762",
+    appId: "1:443651811762:web:7b9ee78189163480309cab",
+    measurementId: "G-85ELX8D43D"
+  };
+  // ===============================================
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  document.getElementById('loginBtn').onclick = async ()=>{
+    const e = document.getElementById('email').value.trim();
+    const p = document.getElementById('pwd').value;
+    const status = document.getElementById('status');
+    status.innerText = 'Signing in...';
+    try{
+      await auth.signInWithEmailAndPassword(e,p);
+      status.innerText = 'Signed in';
+      document.getElementById('adminArea').style.display='block';
+    }catch(err){
+      status.innerText = 'Error: '+err.message;
+    }
+  };
+
+  document.getElementById('save').onclick = async ()=>{
+    const reg = document.getElementById('sreg').value.trim();
+    const name = document.getElementById('sname').value.trim();
+    const classId = document.getElementById('sclass').value.trim();
+    const mom = document.getElementById('smom').value.trim();
+    let marks = {};
+    try{ marks = JSON.parse(document.getElementById('smarks').value || '{}'); }catch(e){ document.getElementById('saveMsg').innerText='Marks JSON invalid'; return;}
+    if(!reg || !name){ document.getElementById('saveMsg').innerText='Fill reg & name'; return; }
+    try{
+      await db.collection('students').doc(reg.toString()).set({ regNo:reg.toString(), name, classId, motherName:mom, marks });
+      document.getElementById('saveMsg').innerText='Saved';
+    }catch(err){ document.getElementById('saveMsg').innerText = 'Error: '+err.message; }
+  };
+</script>
+</body>
+</html>
