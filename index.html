@@ -1,12 +1,170 @@
-
- <!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Mudhoji High School - Test Page</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mudhoji High School</title>
+  <meta name="description" content="Mudhoji High School — academic excellence, community focus." />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>✅ Mudhoji High School Website Working!</h1>
-    <p>If you can read this, Firebase Hosting + GitHub Actions is working.</p>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <div class="brand-mark" aria-hidden="true">🛡️</div>
+        <div>
+          <span class="brand-name">Mudhoji High School</span>
+          <small class="brand-tag">Learning • Character • Growth</small>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#admissions">Admissions</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="btn btn-ghost" href="/admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Building leaders for tomorrow</h1>
+          <p class="lead">A modern learning environment focused on academic excellence, extracurricular growth and values. Discover our programs, teachers and admissions process.</p>
+
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#admissions">Apply / Enroll</a>
+            <a class="btn btn-outline" href="#about">Learn more</a>
+          </div>
+
+          <ul class="quick-stats">
+            <li><strong>1200+</strong><span>Students</span></li>
+            <li><strong>75</strong><span>Teachers</span></li>
+            <li><strong>100%</strong><span>Extracurriculars</span></li>
+          </ul>
+        </div>
+
+        <div class="hero-media" aria-hidden="true">
+          <!-- simple card preview, replace with school photo later -->
+          <div class="card">
+            <div class="card-photo" role="img" aria-label="School building"></div>
+            <div class="card-body">
+              <h3>Welcome to Mudhoji</h3>
+              <p>Academic programs, labs, sports & arts — all in one campus.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section container">
+      <div class="grid-2">
+        <div>
+          <h2>About our school</h2>
+          <p>Founded to empower local students with world-class teaching and character development. We follow a balanced curriculum with emphasis on critical thinking, community service and practical skills.</p>
+          <ul class="bullets">
+            <li>Strong academics and lab facilities</li>
+            <li>Sports, art & club activities</li>
+            <li>Scholarship programs & career guidance</li>
+          </ul>
+        </div>
+
+        <div class="feature-cards">
+          <div class="feature">
+            <h4>Experienced Teachers</h4>
+            <p>Dedicated faculty with modern teaching methods.</p>
+          </div>
+          <div class="feature">
+            <h4>Safe Campus</h4>
+            <p>Secure campus, disciplined environment, health support.</p>
+          </div>
+          <div class="feature">
+            <h4>Student Support</h4>
+            <p>Tutoring, counseling and college preparation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMISSIONS -->
+    <section id="admissions" class="section alt container">
+      <div class="grid-2 align-center">
+        <div>
+          <h2>Admissions & Enrolment</h2>
+          <p>Apply online or visit our office. We run a transparent selection process and provide scholarships for deserving students.</p>
+          <p><strong>Open intake:</strong> June — August</p>
+          <a class="btn btn-primary" href="#contact">Contact Admissions</a>
+        </div>
+
+        <div class="admissions-steps">
+          <ol>
+            <li>Fill application form</li>
+            <li>Submit documents</li>
+            <li>Attend interview (if required)</li>
+            <li>Confirm enrolment</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section container">
+      <div class="grid-2">
+        <div>
+          <h2>Contact & Visit</h2>
+          <p>Come visit our campus or drop us a message. We are happy to give tours and discuss admission details.</p>
+          <address>
+            Mudhoji High School<br>
+            Village Road, District — 000000<br>
+            Phone: +91 90000 00000<br>
+            Email: info@mudhoji.example
+          </address>
+        </div>
+
+        <div>
+          <h3>Send a message</h3>
+          <form id="contactForm" onsubmit="return false;">
+            <label>Full name<input name="name" required></label>
+            <label>Email<input name="email" type="email" required></label>
+            <label>Message <textarea name="message" rows="4" required></textarea></label>
+            <div style="display:flex;gap:.5rem;">
+              <button class="btn btn-primary" type="submit">Send message</button>
+              <button class="btn btn-ghost" type="reset">Reset</button>
+            </div>
+          </form>
+          <p class="muted">This contact form is static for demo. I can wire it to Firestore / Functions next.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Mudhoji High School</strong><br>
+        © <span id="year"></span> All rights reserved.
+      </div>
+      <nav class="footer-nav">
+        <a href="#about">About</a>
+        <a href="#admissions">Admissions</a>
+        <a href="/admin.html">Admin</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // small JS to show year and handle demo contact form
+    document.getElementById('year').textContent = (new Date()).getFullYear();
+
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thanks — this is a demo message. I can connect it to Firestore if you want.');
+    });
+  </script>
 </body>
 </html>
